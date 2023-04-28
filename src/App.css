@@ -1,0 +1,52 @@
+#bili-speed-app button {
+    outline: 0;
+    padding: 2px 2px;
+    margin-left: 5px;
+    background-color: #f4f4f4;
+    border: 0;
+    color: #222;
+    cursor: pointer;
+    border-radius: 10%;
+}
+#current-speed-btn {
+    transition: all 0.2s ease-in-out;
+    border: 0 !important;
+    background-color: #ffafc9 !important;
+    color: #fff !important;
+    width: 40px;
+}
+.video-speed-box {
+    width: 100%;
+    height: 28px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+#current-speed-btn:hover {
+    transform: scale(1.5);
+    transform-origin: 50% 100%;
+    border-radius: 6px;
+}
+
+.plugin-notification {
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 10px;
+    background: rgba(31, 14, 14, 0.452);
+    color: rgba(233, 232, 232, 0.911);
+    font-size: 24px;
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    text-align: center;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.plugin-notification.show {
+    /* opacity: 1; */
+    display: block;
+}
