@@ -13,7 +13,11 @@ export default defineConfig(() => {
             icon: 'https://github.com/roo12589/my-monkey-scripts/blob/master/assets/bili-favicon.ico?raw=true',
             namespace: 'github/roo12589',
             author: 'roo12589',
-            match: ['*://*.bilibili.com/video/*'],
+            match: [
+                '*://*.bilibili.com/video/*',
+                /* 测试用 */
+                // '*://*/*',
+            ],
         },
         build: {
             externalGlobals: {
@@ -28,6 +32,9 @@ export default defineConfig(() => {
             alias: {
                 '@': path.resolve(__dirname, './src'),
             },
+        },
+        server: {
+            port: 3001,
         },
     }
 })

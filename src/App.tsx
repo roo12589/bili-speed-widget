@@ -1,3 +1,4 @@
+import { GM_registerMenuCommand } from '$'
 import './App.css'
 
 function App() {
@@ -22,16 +23,40 @@ function App() {
     window.addEventListener('pushState', () => {
         resetVideoSpeed()
     })
-    // 倍速列表 暂仅支持localStorage修改
-    const videoSpeedListTop = localStorage.getItem('bsw-speed-list-top')?.split(',').map(parseFloat) || [1, 2, 3]
-    const videoSpeedListBottom = localStorage.getItem('bsw-speed-list-bottom')?.split(',').map(parseFloat) || [
-        1.2, 1.3, 1.5, 1.8, 2.3, 2.5,
-    ]
+    // 倍速列表
+    const videoSpeedList = localStorage
+        .getItem('bsw-speed-list')
+        ?.split(',')
+        .filter((i) => i!=='')
+        .map(parseFloat) || [1, 2, 3, 1.2, 1.3, 1.5, 1.8, 2.3, 2.5, 2.8]
+    const length = videoSpeedList.length
+    let splitIndex
+    if (length % 2 === 0) splitIndex = Math.floor(length / 2) - 1
+    else splitIndex = Math.floor(length / 2)
+    const videoSpeedListTop = videoSpeedList.slice(0, splitIndex)
+    const videoSpeedListBottom = videoSpeedList.slice(splitIndex)
+
+    // 注册菜单命令
+    GM_registerMenuCommand('倍速列表', function () {
+        var value = prompt('请输入倍速:(英文逗号隔开)', videoSpeedList.toString())
+        if (value !== null) {
+            localStorage.setItem('bsw-speed-list', value)
+            createNoti(`已添加,刷新后生效`)
+        }
+    })
+    const nameWhiteList = localStorage.getItem('bsw-name-white-list')?.split(',') || []
+    GM_registerMenuCommand('白名单列表', function () {
+        var value = prompt('播放白名单up主的视频时,不自动倍速:(英文逗号隔开)', nameWhiteList.toString())
+        if (value !== null) {
+            localStorage.setItem('bsw-name-white-list', value)
+            createNoti(`已添加,目前共${value.split(',').length}个,刷新后生效`)
+        }
+    })
 
     // 全局保存速度备份
     var videoSpeedBack
     var isOpen = true
-    const nameWhiteList = localStorage.getItem('bsw-nameWhiteList')?.split(',') || []
+
     const username = document.querySelector<HTMLElement>('.up-info_right .username')?.innerText
     const usernameCombined = new Array()
         .concat(document.querySelectorAll<HTMLElement>('.up-card .name-text'))
